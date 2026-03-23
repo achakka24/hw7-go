@@ -7,17 +7,16 @@ import (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Println(`usage: go run . "x^3 + 2*x + 5"`)
+		fmt.Println(`usage: go run . "expression"`)
 		os.Exit(1)
 	}
 
-	p, err := parse(os.Args[1])
+	expr, err := parse(os.Args[1])
 	if err != nil {
 		fmt.Println("parse error:", err)
 		os.Exit(1)
 	}
 
-	result := simplify(differentiate(p))
+	result := simplify(differentiate(expr))
 	fmt.Println(format(result))
 }
-
