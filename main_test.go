@@ -8,7 +8,7 @@ func TestDifferentiate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	got := format(differentiate(p))
+	got := format(simplify(differentiate(p)))
 	want := "3*x^2 + 2"
 
 	if got != want {
