@@ -20,7 +20,7 @@ func TestDerivHomeworkCases(t *testing.T) {
 			t.Fatalf("parse(%q) failed: %v", tc.input, err)
 		}
 
-		got := format(simplify(differentiate(expr)))
+		got := format(deriveNth(expr, "x", 1))
 		if got != tc.want {
 			t.Fatalf("input %q: got %q want %q", tc.input, got, tc.want)
 		}
@@ -45,5 +45,29 @@ func TestSimplifyHomeworkCases(t *testing.T) {
 		if got != tc.want {
 			t.Fatalf("input %q: got %q want %q", tc.input, got, tc.want)
 		}
+	}
+}
+
+func TestExtensionNthDerivative(t *testing.T) {
+	expr, err := parse("x^4")
+	if err != nil {
+		t.Fatalf("parse failed: %v", err)
+	}
+	got := format(deriveNth(expr, "x", 2))
+	want := "12*x^2"
+	if got != want {
+		t.Fatalf("got %q want %q", got, want)
+	}
+}
+
+func TestExtensionDifferentVariable(t *testing.T) {
+	expr, err := parse("x^3+y^3")
+	if err != nil {
+		t.Fatalf("parse failed: %v", err)
+	}
+	got := format(deriveNth(expr, "y", 1))
+	want := "3*y^2"
+	if got != want {
+		t.Fatalf("got %q want %q", got, want)
 	}
 }

@@ -4,6 +4,17 @@ func differentiate(e Expr) Expr {
 	return differentiateVar(e, "x")
 }
 
+func deriveNth(e Expr, variable string, n int) Expr {
+	if n <= 0 {
+		return e
+	}
+	cur := e
+	for i := 0; i < n; i++ {
+		cur = simplify(differentiateVar(cur, variable))
+	}
+	return cur
+}
+
 func differentiateVar(e Expr, variable string) Expr {
 	switch n := e.(type) {
 	case Const:
@@ -86,7 +97,6 @@ func differentiateVar(e Expr, variable string) Expr {
 				Right: differentiateVar(n.Base, variable),
 			}
 		}
-		// General exponent differentiation (e.g., x^x) is out of scope for this homework.
 		return Const{Value: 0}
 	default:
 		return Const{Value: 0}
